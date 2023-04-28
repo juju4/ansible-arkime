@@ -9,6 +9,9 @@
   remote_user: root
   vars:
     elasticsearch_version: '8.x'
+    elasticsearch_extra_options: |
+      discovery.type: single-node
+      xpack.security.enabled: false
   pre_tasks:
     - name: Ubuntu | Install python3
       ansible.builtin.raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3-minimal)
