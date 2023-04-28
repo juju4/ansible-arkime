@@ -1,0 +1,22 @@
+---
+
+arkime_admin_user: admin
+arkime_admin_pass: THEPASSWORD
+arkime_elastic_host: localhost
+arkime_elastic_port: 9200
+# if using elastic basic auth but NOK. if not, `xpack.security.enabled: false`
+arkime_elastic_user_create: false
+arkime_elastic_user: arkime
+arkime_elastic_pass: arkime
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/built-in-roles.html
+arkime_elastic_role: superuser
+# interfaces to capture from, separated by semi-colon
+arkime_capture_if: 'eth1'
+# vault ideally
+arkime_passwordsecret: RANDOM
+# if got geoip Maxmind config
+arkime_geoip_conf_file: ''
+# arkime_geoip_conf_file: 'GeoIP.conf'
+
+install_archives: /var/_install
+is_container: false

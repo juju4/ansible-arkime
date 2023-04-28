@@ -1,0 +1,130 @@
+---
+
+- name: Include version-specific variables for Ubuntu.
+  ansible.builtin.include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+  when: ansible_distribution == 'Ubuntu'
+- name: Include version-specific variables for RedHat
+  ansible.builtin.include_vars: "RedHat-{{ ansible_distribution_version.split('.')[0] }}.yml"
+  when: ansible_os_family == "RedHat"
+
+- name: Debug | ansible_virtualization_type
+  ansible.builtin.debug:
+    var: ansible_virtualization_type
+    verbosity: 1
+
+- name: Set fact is_container
+  ansible.builtin.set_fact:
+    is_container: true
+  when: >
+    (ansible_virtualization_type is defined and
+      (ansible_virtualization_type == "docker"
+       or ansible_virtualization_type == "containerd"
+       or ansible_virtualization_type == "container"
+      )
+    )
+
+- name: Debug | is_container
+  ansible.builtin.debug:
+    var: is_container
+    verbosity: 1
+
+- name: Ensure archives folder exists
+  ansible.builtin.file:
+    dest: "{{ install_archives }}"
+    state: directory
+    mode: '0775'
+  become: yes
+  become_user: root
+
+- name: Download arkime
+  ansible.builtin.get_url:
+    url: "{{ arkime_pkg }}"
+    dest: "{{ install_archives }}/{{ arkime_pkg | basename }}"
+    mode: 0600
+
+- name: Debian | Install arkime package dependencies
+  ansible.builtin.package:
+    name: "{{ arkime_deps }}"
+    state: present
+
+- name: Debian | Install arkime
+  ansible.builtin.apt:
+    deb: "{{ install_archives }}/{{ arkime_pkg | basename }}"
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: RedHat | Install arkime
+  ansible.builtin.dnf:
+    name: "{{ install_archives }}/{{ arkime_pkg | basename }}"
+    state: present
+  when: ansible_os_family == "RedHat"
+
+# /opt/arkime/bin/Configure
+- name: Ensure arkime is configured
+  ansible.builtin.template:
+    src: config.ini.j2
+    dest: /opt/arkime/etc/config.ini
+    mode: 0644
+
+- name: Ensure arkime limits are configured
+  ansible.builtin.template:
+    src: 99-arkime.conf.j2
+    dest: /etc/security/limits.d/99-arkime.conf
+    mode: 0644
+
+- name: Import elasticsearch-user
+  ansible.builtin.import_tasks: elasticsearch-user.yml
+  when:
+    - arkime_elastic_user_create|bool
+
+- name: Configure Maxmind GeoIP
+  ansible.builtin.copy:
+    src: "{{ arkime_geoip_conf_file }}"
+    dest: /etc/GeoIP.conf
+    mode: '0600'
+  notify:
+    - Run geoipupdate
+  when: arkime_geoip_conf_file|string
+
+# or /opt/arkime/bin/arkime_update_geo.sh
+- name: Ensure oui file is present
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/wireshark/wireshark/master/manuf
+    dest: /opt/arkime/etc/oui.txt
+    mode: '0644'
+
+- name: Ensure iana ipv4-address-space file is present
+  ansible.builtin.get_url:
+    url: https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.csv
+    dest: /opt/arkime/etc/ipv4-address-space.csv
+    mode: '0644'
+
+- name: Check if db initialized
+  ansible.builtin.stat:
+    path: /root/.arkime_elastic_init
+  register: dbinit
+
+- name: Init db
+  when: not dbinit.stat.exists
+  block:
+    - name: Initialize elastic db
+      ansible.builtin.command:  # noqa no-changed-when
+        cmd: /opt/arkime/db/db.pl http://{{ arkime_elastic_host }}:{{ arkime_elastic_port }} init
+    - name: Add initdb marker
+      ansible.builtin.file:
+        path: /root/.arkime_elastic_init
+        state: touch
+        mode: '0600'
+
+- name: Add admin user
+  ansible.builtin.command:
+    cmd: /opt/arkime/bin/arkime_add_user.sh "{{ arkime_admin_user }}" "Admin User" "{{ arkime_admin_pass }}" --admin --createOnly
+  register: arkimeuser
+  changed_when: "'User already exists' not in arkimeuser.stdout"
+
+- name: Import systemd
+  ansible.builtin.import_tasks: systemd.yml
+  become: yes
+  become_user: root
+  when:
+    - not is_container|bool

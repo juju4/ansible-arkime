@@ -1,0 +1,13 @@
+---
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  become: yes
+  become_user: root
+  when:
+    - not is_container|bool
+
+- name: Run geoipupdate
+  ansible.builtin.command:  # noqa no-changed-when
+    cmd: geoipupdate

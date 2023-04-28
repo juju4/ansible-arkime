@@ -1,0 +1,6 @@
+---
+
+arkime_pkg: https://s3.amazonaws.com/files.molo.ch/builds/el-9/arkime-4.3.0-1.x86_64.rpm
+
+arkime_deps:
+  - geoipupdate

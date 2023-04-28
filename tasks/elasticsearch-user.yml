@@ -1,0 +1,13 @@
+---
+
+- name: List Elasticsearch users
+  ansible.builtin.command:
+    cmd: /usr/share/elasticsearch/bin/elasticsearch-users list
+  changed_when: false
+  register: esusers
+
+- name: Create Elasticsearch user
+  ansible.builtin.command:  # noqa no-changed-when
+    cmd: |
+      /usr/share/elasticsearch/bin/elasticsearch-users useradd "{{ arkime_elastic_user }}" -p "{{ arkime_elastic_pass }}" -r "{{ arkime_elastic_role }}"
+  when: "arkime_elastic_user not in esusers.stdout"

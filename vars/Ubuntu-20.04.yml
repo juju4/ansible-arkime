@@ -1,0 +1,13 @@
+---
+
+arkime_pkg: https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-20.04/arkime_4.3.0-1_amd64.deb
+
+arkime_deps:
+  - librdkafka1
+  - libwww-perl
+  - libjson-perl
+  - ethtool
+  - libyaml-dev
+  - liblua5.4-0
+  - libyara8
+  - geoipupdate
