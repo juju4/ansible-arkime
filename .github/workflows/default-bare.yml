@@ -92,6 +92,8 @@ jobs:
           systemd-analyze --no-pager security arkime || true
           systemd-analyze --no-pager security || true
           rsyslogd -v
+          cat /etc/systemd/system/arkimecapture.service || true
+          cat /etc/systemd/system/arkimeviewer.service || true
         if: ${{ always() }}
         continue-on-error: true
       - name: After script - network
@@ -114,5 +116,15 @@ jobs:
           sudo tail -200 /opt/arkime/logs/viewer.log || true
           sudo tail -200 /opt/arkime/logs/capture.log || true
           sudo tail -200 /var/log/elasticsearch/elasticsearch.log || true
+        if: ${{ always() }}
+        continue-on-error: true
+      - name: After script - journalctl arkime capture
+        run: |
+          journalctl -xeu arkimecapture -l --no-pager
+        if: ${{ always() }}
+        continue-on-error: true
+      - name: After script - journalctl arkime viewer
+        run: |
+          journalctl -xeu arkimeviewer -l --no-pager
         if: ${{ always() }}
         continue-on-error: true
