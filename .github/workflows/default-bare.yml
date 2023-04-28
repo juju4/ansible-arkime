@@ -108,9 +108,9 @@ jobs:
       - name: After script - logs
         run: |
           set -x
-          sudo ls -laR /opt/arkime/logs
-          sudo tail -200 /opt/arkime/logs/viewer.log
-          sudo tail -200 /opt/arkime/logs/capture.log
-          sudo tail -200 /var/log/elasticsearch/elasticsearch.log
+          sudo ls -laR /opt/arkime/logs || true
+          sudo tail -200 /opt/arkime/logs/viewer.log || true
+          sudo tail -200 /opt/arkime/logs/capture.log || true
+          sudo tail -200 /var/log/elasticsearch/elasticsearch.log || true
         if: ${{ always() }}
         continue-on-error: true
