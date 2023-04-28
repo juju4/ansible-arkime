@@ -8,6 +8,7 @@
     no_proxy: "{{ lookup('env', 'no_proxy') }}"
   remote_user: root
   vars:
+    arkime_capture_if: 'eth0'
     elasticsearch_version: '8.x'
     elasticsearch_extra_options: |
       discovery.type: single-node
