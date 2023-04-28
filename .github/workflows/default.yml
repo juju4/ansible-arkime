@@ -34,6 +34,7 @@ jobs:
       ANSIBLE_CALLBACKS_ENABLED: profile_tasks
       MOLECULE_NO_LOG: "false"
       ANSIBLE_ROLE: juju4.arkime
+      SUITE: default
 
     steps:
       - uses: actions/checkout@v3
@@ -48,6 +49,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install molecule[docker] ansible-lint flake8 testinfra ansible
           mkdir -p $HOME/.ansible/roles && ln -s $GITHUB_WORKSPACE/$ANSIBLE_ROLE $HOME/.ansible/roles/
+          [ -f molecule/${SUITE}/requirements.yml ] && ansible-galaxy install -r molecule/${SUITE}/requirements.yml
       - name: Fetch central settings repository
         run: |
           export settings_repo="https://raw.githubusercontent.com/juju4/ansible-ci-settings/main"
