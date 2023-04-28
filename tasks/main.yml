@@ -99,6 +99,15 @@
     dest: /opt/arkime/etc/ipv4-address-space.csv
     mode: '0644'
 
+- name: Ensure raw folder exists
+  ansible.builtin.file:
+    dest: /opt/arkime/raw
+    state: directory
+    owner: "{{ arkime_process_dropuser }}"
+    mode: '0755'
+  become: yes
+  become_user: root
+
 - name: Check if db initialized
   ansible.builtin.stat:
     path: /root/.arkime_elastic_init

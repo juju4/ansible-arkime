@@ -3,6 +3,7 @@
 arkime_version: 4.3.0-1
 arkime_admin_user: admin
 arkime_admin_pass: THEPASSWORD
+arkime_process_dropuser: nobody
 arkime_elastic_host: localhost
 arkime_elastic_port: 9200
 # if using elastic basic auth but NOK. if not, `xpack.security.enabled: false`

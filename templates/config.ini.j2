@@ -143,7 +143,7 @@ ouiFile=/opt/arkime/etc/oui.txt
 #rulesFiles=/opt/arkime/etc/arkime.rules
 
 # User to drop privileges to. The pcapDir must be writable by this user or group below
-dropUser=nobody
+dropUser={{ arkime_process_dropuser }}
 
 # Group to drop privileges to. The pcapDir must be writable by this group or user above
 dropGroup=daemon
