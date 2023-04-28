@@ -1,6 +1,6 @@
 ---
 
-arkime_pkg: https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-20.04/arkime_4.3.0-1_amd64.deb
+arkime_pkg: "https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-20.04/arkime_{{ arkime_version }}_amd64.deb"
 
 arkime_deps:
   - librdkafka1

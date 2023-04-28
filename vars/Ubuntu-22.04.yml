@@ -1,8 +1,6 @@
 ---
 
-# arkime_pkg: https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-22.04/arkime_4.3.0-1_amd64.deb
-# https://github.com/arkime/arkime/commit/f648d6cdce58fb48bbcb90d86b1e1cb4a2ed1157 unreleased 4.3.1 fix ubuntu22 kafka dep
-arkime_pkg: https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-22.04/arkime_4.2.0-1_amd64.deb
+arkime_pkg: "https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-22.04/arkime_{{ arkime_version }}_amd64.deb"
 
 arkime_deps:
   - librdkafka1

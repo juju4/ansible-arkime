@@ -45,7 +45,8 @@ $ MOLECULE_DISTRO=ubuntu:22.04 molecule test --destroy=never
 
 ## Troubleshooting & Known issues
 
-TBD
+* librdkafka dependency issue in 4.3.0 on ubuntu 22.04 and fixed version unreleased = use 4.2.0
+https://github.com/arkime/arkime/commit/f648d6cdce58fb48bbcb90d86b1e1cb4a2ed1157 unreleased 4.3.1 fix ubuntu22 kafka dep
 
 ## License
 
