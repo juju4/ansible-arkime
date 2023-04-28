@@ -102,7 +102,9 @@ jobs:
       - name: After script - arkime
         run: |
           set -x
-          sudo ls -la /opt/arkime/
+          sudo cat /etc/elasticsearch/elasticsearch.yml || true
+          sudo ls -la /opt/arkime/ || true
+          sudo cat /opt/arkime/etc/config.ini || true
         if: ${{ always() }}
         continue-on-error: true
       - name: After script - logs
