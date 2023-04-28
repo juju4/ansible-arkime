@@ -8,6 +8,6 @@ arkime_deps:
   - libjson-perl
   - ethtool
   - libyaml-dev
-  - liblua5.4-0
+  - liblua5.2-0
   - libyara8
   - geoipupdate
