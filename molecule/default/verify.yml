@@ -94,3 +94,15 @@
         that: log1.rc != 0
       when:
         - not is_container|bool
+
+    - name: Check elastic health
+      ansible.builtin.uri:
+        url: http://localhost:9200/_cat/health
+        return_content: yes
+      changed_when: false
+      failed_when: false
+
+    - name: Check elastic info
+      ansible.builtin.command: /opt/arkime/db/db.pl http://localhost:9200 info
+      changed_when: false
+      failed_when: false
