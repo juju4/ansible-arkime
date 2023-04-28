@@ -140,6 +140,13 @@
   register: arkimeuser
   changed_when: "'User already exists' not in arkimeuser.stdout"
 
+- name: Add standard users
+  ansible.builtin.command:
+    cmd: /opt/arkime/bin/arkime_add_user.sh "{{ item.name }}" "{{ item.comment }}" "{{ item.pass }}" --createOnly
+  loop: "{{ arkime_users }}"
+  register: users
+  changed_when: "'User already exists' not in arkimeuser.stdout"
+
 - name: Import systemd
   ansible.builtin.import_tasks: systemd.yml
   become: yes
