@@ -89,7 +89,8 @@ jobs:
           systemctl -l --no-pager status arkimecapture || true
           systemctl -l --no-pager status arkimeviewer || true
           systemctl -l --no-pager status elasticsearch || true
-          systemd-analyze --no-pager security arkime || true
+          systemd-analyze --no-pager security arkimecapture || true
+          systemd-analyze --no-pager security arkimeviewer || true
           systemd-analyze --no-pager security || true
           rsyslogd -v
           cat /etc/systemd/system/arkimecapture.service || true
@@ -126,5 +127,12 @@ jobs:
       - name: After script - journalctl arkime viewer
         run: |
           journalctl -xeu arkimeviewer -l --no-pager
+        if: ${{ always() }}
+        continue-on-error: true
+      - name: After script - test run
+        run: |
+          set -x
+          /opt/arkime/bin/arkime_config_interfaces.sh -c /opt/arkime/etc/config.ini -n default
+          /opt/arkime/bin/capture -c /opt/arkime/etc/config.ini
         if: ${{ always() }}
         continue-on-error: true
