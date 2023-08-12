@@ -11,3 +11,4 @@ arkime_deps:
   - liblua5.4-0
   - libyara8
   - geoipupdate
+  - tar
