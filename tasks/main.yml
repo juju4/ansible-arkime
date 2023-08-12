@@ -90,11 +90,13 @@
 - name: Download oui file
   ansible.builtin.get_url:
     url: "{{ arkime_url_oui_txt }}"
-    dest: "/opt/arkime/etc/{{ arkime_url_oui_txt }}"
+    dest: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
     mode: '0644'
+  register: dl_oui
+  until: dl_oui is success
 - name: Unarchive oui file
   ansible.builtin.unarchive:
-    src: "/opt/arkime/etc/{{ arkime_url_oui_txt }}"
+    src: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
     dest: /opt/arkime/etc/oui.txt
     mode: '0644'
   when: "'.bz2' in arkime_url_oui_txt"
