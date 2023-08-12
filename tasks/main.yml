@@ -87,11 +87,17 @@
   when: arkime_geoip_conf_file|string
 
 # or /opt/arkime/bin/arkime_update_geo.sh
-- name: Ensure oui file is present
+- name: Download oui file
   ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/wireshark/wireshark/master/manuf
+    url: "{{ arkime_url_oui_txt }}"
+    dest: "/opt/arkime/etc/{{ arkime_url_oui_txt }}"
+    mode: '0644'
+- name: Unarchive oui file
+  ansible.builtin.unarchive:
+    src: "/opt/arkime/etc/{{ arkime_url_oui_txt }}"
     dest: /opt/arkime/etc/oui.txt
     mode: '0644'
+  when: "'.bz2' in arkime_url_oui_txt"
 
 - name: Ensure iana ipv4-address-space file is present
   ansible.builtin.get_url:
