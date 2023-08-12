@@ -97,7 +97,7 @@
 - name: Unarchive oui file
   ansible.builtin.unarchive:
     src: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
-    dest: /opt/arkime/etc/oui.txt
+    dest: /opt/arkime/etc
     mode: '0644'
   when: "'.bz2' in arkime_url_oui_txt"
 
