@@ -100,7 +100,7 @@
     dest: /opt/arkime/etc
     mode: '0644'
     remote_src: true
-  when: "'.gz' in arkime_url_oui_txt"
+  when: "'.zip' in arkime_url_oui_txt"
 
 - name: Ensure iana ipv4-address-space file is present
   ansible.builtin.get_url:
