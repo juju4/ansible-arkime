@@ -26,7 +26,7 @@ arkime_geoip_conf_file: ''
 # arkime_geoip_conf_file: 'GeoIP.conf'
 
 #  https://linuxnet.ca/ieee/oui/
-arkime_url_oui_txt: https://linuxnet.ca/ieee/oui.txt.bz2
+arkime_url_oui_txt: https://linuxnet.ca/ieee/oui.txt.gz
 
 install_archives: /var/_install
 is_container: false

@@ -99,7 +99,7 @@
     src: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
     dest: /opt/arkime/etc
     mode: '0644'
-  when: "'.bz2' in arkime_url_oui_txt"
+  when: "'.gz' in arkime_url_oui_txt"
 
 - name: Ensure iana ipv4-address-space file is present
   ansible.builtin.get_url:
