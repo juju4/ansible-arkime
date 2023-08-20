@@ -25,6 +25,8 @@ arkime_passwordsecret: RANDOM
 arkime_geoip_conf_file: ''
 # arkime_geoip_conf_file: 'GeoIP.conf'
 
+arkime_config_template: config.ini
+
 #  https://linuxnet.ca/ieee/oui/
 arkime_url_oui_txt: http://standards-oui.ieee.org/oui/oui.txt
 

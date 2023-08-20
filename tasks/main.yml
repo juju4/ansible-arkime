@@ -62,7 +62,7 @@
 # /opt/arkime/bin/Configure
 - name: Ensure arkime is configured
   ansible.builtin.template:
-    src: config.ini.j2
+    src: "{{ arkime_config_template }}.j2"
     dest: /opt/arkime/etc/config.ini
     mode: 0644
 
