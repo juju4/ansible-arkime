@@ -9,6 +9,6 @@ arkime_deps:
   - ethtool
   - libyaml-dev
   - liblua5.4-0
-  - libyara8
+  - libyara10
   - geoipupdate
   - unzip
