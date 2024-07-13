@@ -1,6 +1,7 @@
 ---
 
-arkime_version: 4.3.0-1
+arkime_version: 5.3.0
+arkime_patch: 1
 arkime_admin_user: admin
 arkime_admin_pass: THEPASSWORD
 arkime_process_dropuser: nobody

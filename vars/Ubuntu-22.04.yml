@@ -1,6 +1,6 @@
 ---
 
-arkime_pkg: "https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-22.04/arkime_{{ arkime_version }}_amd64.deb"
+arkime_pkg: "https://github.com/arkime/arkime/releases/download/v{{ arkime_version }}/arkime_{{ arkime_version }}-{{ arkime_patch }}.ubuntu2204_amd64.deb"
 
 arkime_deps:
   - librdkafka1

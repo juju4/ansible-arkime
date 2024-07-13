@@ -1,6 +1,6 @@
 ---
 
-arkime_pkg: "https://s3.amazonaws.com/files.molo.ch/builds/centos-8/arkime-{{ arkime_version }}.x86_64.rpm"
+arkime_pkg: "https://github.com/arkime/arkime/releases/download/v{{ arkime_version }}/arkime_{{ arkime_version }}-{{ arkime_patch }}.el8.x86_64.deb"
 
 arkime_deps:
   - geoipupdate
