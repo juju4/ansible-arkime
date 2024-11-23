@@ -40,7 +40,7 @@
   ansible.builtin.get_url:
     url: "{{ arkime_pkg }}"
     dest: "{{ install_archives }}/{{ arkime_pkg | basename }}"
-    mode: 0600
+    mode: '0600'
 
 - name: Debian | Install arkime package dependencies
   ansible.builtin.package:
@@ -64,13 +64,13 @@
   ansible.builtin.template:
     src: "{{ arkime_config_template }}.j2"
     dest: /opt/arkime/etc/config.ini
-    mode: 0644
+    mode: '0644'
 
 - name: Ensure arkime limits are configured
   ansible.builtin.template:
     src: 99-arkime.conf.j2
     dest: /etc/security/limits.d/99-arkime.conf
-    mode: 0644
+    mode: '0644'
 
 - name: Import elasticsearch-user
   ansible.builtin.import_tasks: elasticsearch-user.yml
