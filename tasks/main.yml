@@ -84,7 +84,8 @@
     mode: '0600'
   notify:
     - Run geoipupdate
-  when: arkime_geoip_conf_file|string
+  when:
+    - arkime_geoip_conf_file | length > 0
 
 # or /opt/arkime/bin/arkime_update_geo.sh
 - name: Download oui file
