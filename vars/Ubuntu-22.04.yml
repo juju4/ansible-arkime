@@ -1,6 +1,6 @@
 ---
 
-arkime_pkg: "https://github.com/arkime/arkime/releases/download/v{{ arkime_version }}/arkime_{{ arkime_version }}-{{ arkime_patch }}.ubuntu2204_amd64.deb"
+arkime_pkg: "https://github.com/arkime/arkime/releases/download/{{ arkime_version }}/arkime_{{ arkime_version | regex_replace('^v', '') }}-{{ arkime_patch }}.ubuntu2204_amd64.deb"
 
 arkime_deps:
   - librdkafka1
