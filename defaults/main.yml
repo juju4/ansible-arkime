@@ -29,6 +29,8 @@ arkime_geoip_conf_file: ''
 
 arkime_config_template: config.ini
 
+# if oui_file empty, will try to download but occasionally responding HTTP 418
+arkime_oui_file: oui.txt
 #  https://linuxnet.ca/ieee/oui/
 arkime_url_oui_txt: http://standards-oui.ieee.org/oui/oui.txt
 

@@ -88,20 +88,32 @@
     - arkime_geoip_conf_file | length > 0
 
 # or /opt/arkime/bin/arkime_update_geo.sh
-- name: Download oui file
-  ansible.builtin.get_url:
-    url: "{{ arkime_url_oui_txt }}"
-    dest: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
+- name: Copy orchestrator oui file
+  ansible.builtin.copy:
+    src: "{{ arkime_oui_file }}"
+    dest: "/opt/arkime/etc/oui.txt"
     mode: '0644'
-  register: dl_oui
-  until: dl_oui is success
-- name: Unarchive oui file
-  ansible.builtin.unarchive:
-    src: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
-    dest: /opt/arkime/etc
-    mode: '0644'
-    remote_src: true
-  when: "'.zip' in arkime_url_oui_txt"
+  when:
+    - arkime_oui_file | length > 0
+- name: Download oui
+  when:
+    - arkime_oui_file | length == 0
+    - arkime_url_oui_txt | length > 0
+  block:
+    - name: Download oui file
+      ansible.builtin.get_url:
+        url: "{{ arkime_url_oui_txt }}"
+        dest: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
+        mode: '0644'
+      register: dl_oui
+      until: dl_oui is success
+    - name: Unarchive oui file
+      ansible.builtin.unarchive:
+        src: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
+        dest: /opt/arkime/etc
+        mode: '0644'
+        remote_src: true
+      when: "'.zip' in arkime_url_oui_txt"
 
 - name: Ensure iana ipv4-address-space file is present
   ansible.builtin.get_url:
