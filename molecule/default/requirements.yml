@@ -1,4 +1,6 @@
 ---
 
 roles:
-  - name: geerlingguy.elasticsearch
+  - src: https://github.com/juju4/ansible-role-elasticsearch/
+    version: master
+    name: geerlingguy.elasticsearch
