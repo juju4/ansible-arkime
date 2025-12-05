@@ -1,7 +1,7 @@
 ---
 
 # renovate: datasource=github-releases depName=arkime/arkime
-arkime_version: 'v5.8.2'
+arkime_version: 'v5.8.3'
 arkime_patch: 1
 arkime_admin_user: admin
 arkime_admin_pass: THEPASSWORD
