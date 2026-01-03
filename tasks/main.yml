@@ -1,5 +1,4 @@
 ---
-
 - name: Include version-specific variables for Ubuntu.
   ansible.builtin.include_vars: "{{ ansible_facts['distribution'] }}-{{ ansible_facts['distribution_version'] }}.yml"
   when: ansible_facts['distribution'] == 'Ubuntu'
@@ -32,15 +31,15 @@
   ansible.builtin.file:
     dest: "{{ install_archives }}"
     state: directory
-    mode: '0775'
-  become: yes
+    mode: "0775"
+  become: true
   become_user: root
 
 - name: Download arkime
   ansible.builtin.get_url:
     url: "{{ arkime_pkg }}"
     dest: "{{ install_archives }}/{{ arkime_pkg | basename }}"
-    mode: '0600'
+    mode: "0600"
 
 - name: Debian | Install arkime package dependencies
   ansible.builtin.package:
@@ -64,13 +63,13 @@
   ansible.builtin.template:
     src: "{{ arkime_config_template }}.j2"
     dest: /opt/arkime/etc/config.ini
-    mode: '0644'
+    mode: "0644"
 
 - name: Ensure arkime limits are configured
   ansible.builtin.template:
     src: 99-arkime.conf.j2
     dest: /etc/security/limits.d/99-arkime.conf
-    mode: '0644'
+    mode: "0644"
 
 - name: Import elasticsearch-user
   ansible.builtin.import_tasks: elasticsearch-user.yml
@@ -81,7 +80,7 @@
   ansible.builtin.copy:
     src: "{{ arkime_geoip_conf_file }}"
     dest: /etc/GeoIP.conf
-    mode: '0600'
+    mode: "0600"
   notify:
     - Run geoipupdate
   when:
@@ -92,7 +91,7 @@
   ansible.builtin.copy:
     src: "{{ arkime_oui_file }}"
     dest: "/opt/arkime/etc/oui.txt"
-    mode: '0644'
+    mode: "0644"
   when:
     - arkime_oui_file | length > 0
 - name: Download oui
@@ -104,14 +103,14 @@
       ansible.builtin.get_url:
         url: "{{ arkime_url_oui_txt }}"
         dest: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
-        mode: '0644'
+        mode: "0644"
       register: dl_oui
       until: dl_oui is success
     - name: Unarchive oui file
       ansible.builtin.unarchive:
         src: "/opt/arkime/etc/{{ arkime_url_oui_txt | basename }}"
         dest: /opt/arkime/etc
-        mode: '0644'
+        mode: "0644"
         remote_src: true
       when: "'.zip' in arkime_url_oui_txt"
 
@@ -119,15 +118,15 @@
   ansible.builtin.get_url:
     url: https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.csv
     dest: /opt/arkime/etc/ipv4-address-space.csv
-    mode: '0644'
+    mode: "0644"
 
 - name: Ensure raw folder exists
   ansible.builtin.file:
     dest: /opt/arkime/raw
     state: directory
     owner: "{{ arkime_process_dropuser }}"
-    mode: '0755'
-  become: yes
+    mode: "0755"
+  become: true
   become_user: root
 
 - name: Ensure logs folder exists
@@ -135,8 +134,8 @@
     dest: /opt/arkime/logs
     state: directory
     owner: root
-    mode: '0755'
-  become: yes
+    mode: "0755"
+  become: true
   become_user: root
 
 - name: Check if db initialized
@@ -148,13 +147,13 @@
   when: not dbinit.stat.exists
   block:
     - name: Initialize elastic db
-      ansible.builtin.command:  # noqa no-changed-when
+      ansible.builtin.command: # noqa no-changed-when
         cmd: /opt/arkime/db/db.pl http://{{ arkime_elastic_host }}:{{ arkime_elastic_port }} init
     - name: Add initdb marker
       ansible.builtin.file:
         path: /root/.arkime_elastic_init
         state: touch
-        mode: '0600'
+        mode: "0600"
 
 - name: Add admin user
   ansible.builtin.command:
@@ -171,7 +170,7 @@
 
 - name: Import systemd
   ansible.builtin.import_tasks: systemd.yml
-  become: yes
+  become: true
   become_user: root
   when:
     - not is_container|bool

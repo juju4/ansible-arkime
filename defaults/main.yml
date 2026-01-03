@@ -1,16 +1,13 @@
 ---
 
 # renovate: datasource=github-releases depName=arkime/arkime
-arkime_version: 'v5.8.3'
+arkime_version: "v5.8.3"
 arkime_patch: 1
 arkime_admin_user: admin
 arkime_admin_pass: THEPASSWORD
 arkime_process_dropuser: nobody
 arkime_users:
-  - { name: john,
-      comment: "John Doe",
-      pass: john
-  }
+  - { name: john, comment: "John Doe", pass: john }
 arkime_elastic_host: localhost
 arkime_elastic_port: 9200
 # if using elastic basic auth but NOK. if not, `xpack.security.enabled: false`
@@ -20,11 +17,11 @@ arkime_elastic_pass: arkime
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/built-in-roles.html
 arkime_elastic_role: superuser
 # interfaces to capture from, separated by semi-colon
-arkime_capture_if: 'eth1'
+arkime_capture_if: "eth1"
 # vault ideally
 arkime_passwordsecret: RANDOM
 # if got geoip Maxmind config
-arkime_geoip_conf_file: ''
+arkime_geoip_conf_file: ""
 # arkime_geoip_conf_file: 'GeoIP.conf'
 
 arkime_config_template: config.ini

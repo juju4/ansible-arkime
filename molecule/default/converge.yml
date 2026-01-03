@@ -1,5 +1,4 @@
 ---
-
 - name: Converge
   hosts: all
   environment:
@@ -8,8 +7,8 @@
     no_proxy: "{{ lookup('env', 'no_proxy') }}"
   remote_user: root
   vars:
-    arkime_capture_if: 'eth0'
-    elasticsearch_version: '8.x'
+    arkime_capture_if: "eth0"
+    elasticsearch_version: "8.x"
     elasticsearch_extra_options: |
       discovery.type: single-node
       xpack.security.enabled: false
@@ -31,7 +30,7 @@
       when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] | int >= 16)
     - name: Ubuntu Bionic+, Redhat 8+ | Enforce python3 for ansible
       ansible.builtin.set_fact:
-        ansible_facts['python_interpreter:'] /usr/bin/python3
+        ansible_python_interpreter: /usr/bin/python3
       when: >
         (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] | int >= 16) or
         (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] | int >= 8)

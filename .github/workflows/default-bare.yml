@@ -4,11 +4,10 @@ name: default-bare
 on:
   push:
   pull_request:
-  schedule:  # run weekly, every Thursday 01:00
-    - cron: '0 1 * * 4'
+  schedule: # run weekly, every Thursday 01:00
+    - cron: "0 1 * * 4"
 
 permissions: {}
-
 jobs:
   build:
     permissions:
@@ -32,7 +31,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6
         with:
-          python-version: '3.x'
+          python-version: "3.x"
       - name: ACL
         run: |
           sudo apt-get install -y acl || true
@@ -60,8 +59,8 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/$ANSIBLE_ROLE && ansible-playbook -i localhost, --connection=local --become -vvv molecule/${SUITE}/converge.yml ${ANSIBLE_EXTRA_VARS}
         env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
       - name: idempotency run
         run: |
           cd $GITHUB_WORKSPACE/$ANSIBLE_ROLE && ansible-playbook -i localhost, --connection=local --become -vvv molecule/${SUITE}/converge.yml ${ANSIBLE_EXTRA_VARS} | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0)  || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 0)

@@ -1,5 +1,4 @@
 ---
-
 - name: Verify arkimesetup
   hosts: arkimegroup
   vars:
@@ -31,7 +30,6 @@
           )
         )
   tasks:
-
     - name: Check arkime binary
       ansible.builtin.stat:
         path: "{{ arkime_bin }}"
@@ -71,8 +69,8 @@
     - name: Fetch localhost endpoint
       ansible.builtin.uri:
         url: "{{ url }}"
-        validate_certs: no
-        return_content: yes
+        validate_certs: false
+        return_content: true
         status_code:
           - 401
       register: web
@@ -98,7 +96,7 @@
     - name: Check elastic health
       ansible.builtin.uri:
         url: http://localhost:9200/_cat/health
-        return_content: yes
+        return_content: true
       changed_when: false
       failed_when: false
 
