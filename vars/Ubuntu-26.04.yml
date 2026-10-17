@@ -1,0 +1,14 @@
+---
+
+arkime_pkg: "https://github.com/arkime/arkime/releases/download/{{ arkime_version }}/arkime_{{ arkime_version | regex_replace('^v', '') }}-{{ arkime_patch }}.ubuntu2604_amd64.deb"
+
+arkime_deps:
+  - librdkafka1
+  - libwww-perl
+  - libjson-perl
+  - ethtool
+  - libyaml-dev
+  - liblua5.4-0
+  - libyara10
+  - geoipupdate
+  - unzip
